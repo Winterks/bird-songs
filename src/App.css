@@ -45,8 +45,9 @@
 
 img.bird {
   display: block; /* Removes extra space below inline images */
-  max-width: calc(100vw - 20px); /* 100% of viewport width minus margin */
-  max-height: calc(100vh - 20px); /* 100% of viewport height minus margin */
-  margin: 10px; /* Adds slight margin around the image */
+  max-width: calc(90vw - 40px); /* Account for margin */
+  max-height: calc(80vh - 40px); /* Account for margin */
+  margin: 10px; /* Adds slight margin */
   object-fit: contain; /* Ensures the whole image fits without cropping */
+  box-sizing: border-box; /* Ensures the margins don’t add extra size */
 }
