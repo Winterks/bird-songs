@@ -12,26 +12,31 @@
   transition: filter 300ms;
 }
 
+/* Hover effect remains the same */
 .bird:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .bird.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-/* Rotation animation */
-@keyframes bird-spin {
-  from {
-    transform: rotate(0deg);
+/* Pulse animation */
+@keyframes bird-pulse {
+  0% {
+    transform: scale(1);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .playing {
-    animation: bird-spin infinite 10s linear;
+    animation: bird-pulse 1.5s infinite ease-in-out;
   }
 }
 
@@ -43,6 +48,7 @@
   color: #888;
 }
 
+/* Image styles */
 img.bird {
   display: block; /* Removes extra space below inline images */
   max-width: calc(90vw - 40px); /* Account for margin */
