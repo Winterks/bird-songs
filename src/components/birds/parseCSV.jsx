@@ -2,7 +2,9 @@
 // Function to parse CSV data
 async function parseCSV(filePath,jsonData) {
 try {
-    const response = await fetch(filePath); // Fetch the JSON file
+    var base_url = window.location.origin + window.location.pathname;
+    var csvFile = new URL(filePath,base_url);
+    const response = await fetch(csvFile); // Fetch the JSON file
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
