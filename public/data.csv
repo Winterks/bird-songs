@@ -1,0 +1,7 @@
+preview ,imageSrc ,audioUrl 
+Robin,src/assets/Robin.jpg,src/assets/Robin.mp3
+Blackbird,src/assets/Blackbird.jpg,src/assets/Blackbird.mp3
+Chaffinch,src/assets/Chaffinch.jpg,src/assets/Chaffinch.mp3
+Wood Pigeon,src/assets/Wood-Pigeon.jpg,src/assets/Wood-Pigeon.mp3
+Song Thrush,src/assets/Song-Thrush.jpg,src/assets/Song-Thrush.mp3
+Wren,src/assets/Wren.jpg,src/assets/Wren.mp3

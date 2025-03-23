@@ -2,52 +2,13 @@ import GenericPlayer from "./components/birds/GenericPlayer";
 import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
+import parseCSV from "./components/birds/parseCSV";
 
-import robin from "./assets/Robin.jpg";
-import blackbird from "./assets/Blackbird.jpg";
-import chaffinch from "./assets/Chaffinch.jpg";
-import woodpigeon from "./assets/Wood-Pigeon.jpg";
-import songThrush from "./assets/Song-Thrush.jpg";
-import wren from "./assets/Wren.jpg";
-import robinsong from "./assets/Robin.mp3";
-import blackbirdsong from "./assets/Blackbird.mp3";
-import chaffinchsong from "./assets/Chaffinch.mp3";
-import woodpigeonsong from "./assets/Wood_Pigeon.mp3";
-import songthrushsong from "./assets/Song_Thrush.mp3";
-import wrensong from "./assets/Wren.mp3";
 
-const birdies = [
-  {
-    imageSrc: robin,
-    audioUrl: robinsong,
-    preview: "Robin",
-  },
-  {
-    imageSrc: blackbird,
-    audioUrl: blackbirdsong,
-    preview: "Blackbird",
-  },
-  {
-    imageSrc: chaffinch,
-    audioUrl: chaffinchsong,
-    preview: "Chaffinch",
-  },
-  {
-    imageSrc: woodpigeon,
-    audioUrl: woodpigeonsong,
-    preview: "Wood Pigeon",
-  },
-  {
-    imageSrc: songThrush,
-    audioUrl: songthrushsong,
-    preview: "Song Thrush",
-  },
-  {
-    imageSrc: wren,
-    audioUrl: wrensong,
-    preview: "Wren",
-  },
-];
+var birdies = [];
+parseCSV("./public/data.csv",birdies); 
+
+// initialise_data();
 
 function App() {
   const indexRef = useRef(0); // Track the current index

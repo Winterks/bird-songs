@@ -1,0 +1,32 @@
+[
+ {
+   "preview": "Robin",
+   "imageSrc": "./assets/Robin.jpg",
+   "audioUrl": "./assets/Robin.mp3"
+ },
+ {
+   "preview": "Blackbird",
+   "imageSrc": "./assets/Blackbird.jpg",
+   "audioUrl": "./assets/Blackbird.mp3"
+ },
+ {
+   "preview": "Chaffinch",
+   "imageSrc": "./assets/Chaffinch.jpg",
+   "audioUrl": "./assets/Chaffinch.mp3"
+ },
+ {
+   "preview": "Wood Pigeon",
+   "imageSrc": "./assets/Wood-Pigeon.jpg",
+   "audioUrl": "./assets/Wood-Pigeon.mp3"
+ },
+ {
+   "preview": "Song Thrush",
+   "imageSrc": "./assets/Song-Thrush.jpg",
+   "audioUrl": "./assets/Song-Thrush.mp3"
+ },
+ {
+   "preview": "Wren",
+   "imageSrc": "./assets/Wren.jpg",
+   "audioUrl": "./assets/Wren.mp3"
+ }
+]
