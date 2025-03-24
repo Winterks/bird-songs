@@ -6,7 +6,7 @@ import parseCSV from "./components/birds/parseCSV";
 
 
 var birdies = [];
-parseCSV("./public/data.csv",birdies); 
+parseCSV("data.csv",birdies); 
 
 // initialise_data();
 
