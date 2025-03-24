@@ -82,8 +82,8 @@ function App() {
             </h1>
             {currentBird && currentBird?.preview === bird.preview ? (
               <GenericPlayer
-                imageSrc={bird.imageSrc}
                 audioUrl={bird.audioUrl}
+                imageSrc={bird.imageSrc}
               />
             ) : null}
           </div>
