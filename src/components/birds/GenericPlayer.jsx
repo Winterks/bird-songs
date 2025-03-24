@@ -7,7 +7,7 @@ function GenericPlayer({ audioUrl, imageSrc, defaultState = false }) {
   const [isPlaying, setIsPlaying] = useState(defaultState);
  /*  var base_url = window.location.origin + window.location.pathname;
   var imageUrl = "";
-debugger
+
   if(imageSrc.includes("://")) { // assume full Url as protocol specified
     imageUrl = new URL(imageSrc);
   } else {
