@@ -1,7 +1,7 @@
 preview ,imageSrc ,audioUrl 
-Robin,src/assets/Robin.jpg,src/assets/Robin.mp3
-Blackbird,src/assets/Blackbird.jpg,src/assets/Blackbird.mp3
-Chaffinch,src/assets/Chaffinch.jpg,src/assets/Chaffinch.mp3
-Wood Pigeon,src/assets/Wood-Pigeon.jpg,src/assets/Wood-Pigeon.mp3
-Song Thrush,src/assets/Song-Thrush.jpg,src/assets/Song-Thrush.mp3
-Wren,src/assets/Wren.jpg,src/assets/Wren.mp3
+Robin,https://www.british-garden-birds.com/Robin_025438.jpg,songs/sound-effect-robin-singing-148333.mp3
+Blackbird,https://www.british-garden-birds.com/Blackbird_019251.jpg,songs/blackbird-singing-296516.mp3
+Chaffinch,https://www.british-garden-birds.com/Chaffinch_006794.jpg,songs/Chaffinch.mp3
+Wood Pigeon,https://www.british-garden-birds.com/Wood-Pigeon_13464.jpg,songs/Wood_pigeon.mp3
+Song Thrush,https://www.british-garden-birds.com/Song-Thrush_027854.jpg,songs/song-thrush-27669.mp3
+Wren,https://www.british-garden-birds.com/Wren_003782.jpg,songs/110714_wren-77591.mp3

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import parseCSV from "./components/birds/parseCSV";
 
-
+// var birdHasBeenClicked = false;
 var birdies = [];
 parseCSV("data.csv",birdies); 
 
@@ -14,7 +14,7 @@ function App() {
   const indexRef = useRef(0); // Track the current index
   const birdHasBeenClicked = useRef(false);
   const [currentBird, setCurrentBird] = useState(null);
-  const [startSpeaking, setStartSpeaking] = useState(false);
+  const [startSpeaking, setStartSpeaking,audioEnded] = useState(false);
   const [triggerRecursion, setTriggerRecursion] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ function App() {
       };
 
       window.speechSynthesis.speak(speech);
-    };
+    }; // end of speakNext
 
     if (startSpeaking) speakNext(); // Start speaking
   }, [birdies, startSpeaking, triggerRecursion]);

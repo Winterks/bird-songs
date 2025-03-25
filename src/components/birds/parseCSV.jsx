@@ -4,7 +4,7 @@ async function parseCSV(csvFile,jsonData) {
 try {
     const response = await fetch(csvFile); // Fetch the CSV file
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(csvFile + ` problem - status: ${response.status}`);
     }
     const fileData = await response.text();
     // This is a regular expression to identify carriage 
