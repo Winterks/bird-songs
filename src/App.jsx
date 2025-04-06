@@ -3,10 +3,12 @@ import GenericPlayer from "./components/birds/GenericPlayer";
 import "./App.css";
 import parseCSV from "./components/birds/parseCSV";
 
-var introText = 'The application will scroll through images of each bird in turn.' + 
-                  ' Click on the bird you want to hear and its song will be played.' +
-                  " If the bird is clicked a second time while playing, it will stop" +
-                  " the audio and scroll to the next bird.";
+var introText =
+  "The application will scroll through images of each bird in turn." +
+  " Click on the bird you want to hear and its song will be played." +
+  " If the bird is clicked a second time while playing, it will stop" +
+  " the audio and scroll to the next bird.";
+
 var birdies = [];
 parseCSV("data.csv", birdies);
 
@@ -16,7 +18,7 @@ function App() {
   const introRequired = useRef(true);
   const [currentBird, setCurrentBird] = useState(null);
   const [startSpeaking, setStartSpeaking] = useState(false);
-  const [triggerRecursion, setTriggerRecursion] = useState(false); 
+  const [triggerRecursion, setTriggerRecursion] = useState(false);
 
   useEffect(() => {
     if (!birdies.length) {
@@ -26,23 +28,34 @@ function App() {
     if (startSpeaking) speakNext();
   }, [birdies, startSpeaking, triggerRecursion]);
 
-  return (  
+  return (
     <div className="bird-list">
       {startSpeaking ? null : (
-        <button className="start-button" 
+        <button
+          className="start-button"
           onClick={() => {
-            setStartSpeaking(!startSpeaking);
-            indexRef.current = 0; // reset the index
-          }}>
-        <span>
-          British bird songs<br />
-          {introText}
-          <br /> Click to start
-          {introRequired.current ? speakStart() : null }
-        </span>
+            if (introRequired.current) {
+              speakStart();
+              introRequired.current = false;
+            } else {
+              // Cancel the intro if its playing
+              window.speechSynthesis.cancel();
+              setStartSpeaking(!startSpeaking);
+              indexRef.current = 0; // reset the index
+            }
+          }}
+        >
+          <span>
+            British bird songs
+            <br />
+            {introText}
+            <br /> Click to start
+            {introRequired.current ? speakStart() : null}
+          </span>
         </button>
       )}
-      {startSpeaking && birdies.map((bird, index) => (
+      {startSpeaking &&
+        birdies.map((bird, index) => (
           <div
             key={index}
             onClick={() => {
@@ -68,11 +81,12 @@ function App() {
 
   function speakStart() {
     const intro = new SpeechSynthesisUtterance(introText);
-    window.speechSynthesis.speak(intro);
-    
+
     intro.onend = () => {
       console.log("start message");
     };
+
+    window.speechSynthesis.speak(intro);
   }
 
   function speakNext() {
@@ -103,7 +117,6 @@ function App() {
 
     window.speechSynthesis.speak(speech);
   } // end of speaknext
-
 }
 
 export default App;
