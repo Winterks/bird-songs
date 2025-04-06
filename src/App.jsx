@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import GenericPlayer from "./components/birds/GenericPlayer";
 import "./App.css";
 import parseCSV from "./components/birds/parseCSV";
+import rotaryLogo from "./assets/my-rotary-logo.png";
 
 var introText =
   "The application will scroll through images of each bird in turn." +
@@ -31,28 +32,51 @@ function App() {
   return (
     <div className="bird-list">
       {startSpeaking ? null : (
-        <button
-          className="start-button"
-          onClick={() => {
-            if (introRequired.current) {
-              speakStart();
-              introRequired.current = false;
-            } else {
-              // Cancel the intro if its playing
-              window.speechSynthesis.cancel();
-              setStartSpeaking(!startSpeaking);
-              indexRef.current = 0; // reset the index
-            }
-          }}
-        >
-          <span>
-            British bird songs
-            <br />
-            {introText}
-            <br /> Click to start
-            {introRequired.current ? speakStart() : null}
-          </span>
-        </button>
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: "0px",
+              left: "0px",
+              padding: "10px",
+              zIndex: 1000,
+            }}
+          >
+            <a
+              href="https://www.rotary-ribi.org/clubs/homepage.php?ClubID=175"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={rotaryLogo}
+                alt="Rotary Logo"
+                style={{ width: "100px", height: "auto" }}
+              />
+            </a>
+          </div>
+          <button
+            className="start-button"
+            onClick={() => {
+              if (introRequired.current) {
+                speakStart();
+                introRequired.current = false;
+              } else {
+                // Cancel the intro if its playing
+                window.speechSynthesis.cancel();
+                setStartSpeaking(!startSpeaking);
+                indexRef.current = 0; // reset the index
+              }
+            }}
+          >
+            <span>
+              British bird songs
+              <br />
+              {introText}
+              <br /> Click to start
+              {introRequired.current ? speakStart() : null}
+            </span>
+          </button>
+        </>
       )}
       {startSpeaking &&
         birdies.map((bird, index) => (
