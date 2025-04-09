@@ -10,18 +10,27 @@
 </head>
 <body>
 <main>
-		<div>
-			<img src="./assets/rotary-wheel.png">
-		</div>
-	<h2>
-		<button classname="rotary"
-			<div>
-				<a href="https://www.rotary-ribi.org/clubs/homepage.php?ClubID=175">
-					ROTARY
-				</a>
-			</div>
-		</button>
-	</h2>
+	<div
+	style={{
+	  position: "fixed",
+	  top: "0px",
+	  left: "0px",
+	  padding: "10px",
+	  zIndex: 1000,
+	}}
+  >
+	<a
+	  href="https://www.rotary-ribi.org/clubs/homepage.php?ClubID=175"
+	  target="_blank"
+	  rel="noreferrer"
+	>
+	  <img
+		src={rotaryLogo}
+		alt="Rotary Logo"
+		style={{ width: "100px", height: "auto" }}
+	  />
+	</a>
+  </div>
 	<div>
 		<button className="start-button" 
 		<span>British bird songs<br />

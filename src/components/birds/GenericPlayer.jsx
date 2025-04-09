@@ -12,7 +12,7 @@ function GenericPlayer({ audioUrl, imageSrc, defaultState = false }) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0; // Reset audio to start
     } else {
-      audioRef.current.play();
+      audioRef.current.play(); 
     }
     setIsPlaying(!isPlaying);
   };

@@ -22,12 +22,12 @@ function App() {
   const [triggerRecursion, setTriggerRecursion] = useState(false);
 
   useEffect(() => {
+    // check to see if array is empty
     if (!birdies.length) {
       return;
     }
-
     if (startSpeaking) speakNext();
-  }, [birdies, startSpeaking, triggerRecursion]);
+  }, [startSpeaking, triggerRecursion]);
 
   return (
     <div className="bird-list">
@@ -119,7 +119,7 @@ function App() {
       setStartSpeaking(!startSpeaking);
       introRequired.current = false;
       introText = null;
-      return;
+      return; // stop when all birds are spoken
     }
 
     if (birdHasBeenClicked.current) {
@@ -128,12 +128,12 @@ function App() {
 
     const bird = birdies[indexRef.current];
 
-    setCurrentBird(bird);
+    setCurrentBird(bird); // set the current bird
 
     const speech = new SpeechSynthesisUtterance(bird.preview);
 
     speech.onend = () => {
-      indexRef.current++;
+      indexRef.current++; // move to the next bird
       setTimeout(() => {
         speakNext();
       }, 2500);
