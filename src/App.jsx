@@ -72,7 +72,6 @@ function App() {
                 window.speechSynthesis.cancel();
                 setStartSpeaking(!startSpeaking);
                 indexRef.current = 0; // reset the index
-                console.log("start ",indexRef.current);
               }
             }}
           >
@@ -131,6 +130,7 @@ function App() {
   };
 
   function playBirdSound () {
+    debugger
     //console.log("birdsound ",currentBird.audioUrl,isSongPlaying);
     //audioRef.current = new Audio(currentBird.audioUrl);
     if (isSongPlaying) {
