@@ -130,7 +130,6 @@ function App() {
   };
 
   function playBirdSound () {
-    debugger
     //console.log("birdsound ",currentBird.audioUrl,isSongPlaying);
     //audioRef.current = new Audio(currentBird.audioUrl);
     if (isSongPlaying) {
