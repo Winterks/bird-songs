@@ -57,3 +57,26 @@ img.bird {
   object-fit: contain; /* Ensures the whole image fits without cropping */
   box-sizing: border-box; /* Ensures the margins don’t add extra size */
 }
+
+.rotary {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.credits {
+  margin-top: 20px; /* Add some spacing above the credits */
+  text-align: center; /* Center the text */
+  font-size: 0.8em; /* Make the text a bit smaller */
+  color: #777; /* A lighter color */
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  z-index: 100; 
+}
+
+.credits a:hover {
+  color: #333; /* Darker color on hover */
+}

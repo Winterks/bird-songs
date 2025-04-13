@@ -39,15 +39,7 @@ function App() {
     <div className="bird-list">
       {startSpeaking ? null : (
         <>
-          <div
-            style={{
-              position: "fixed",
-              top: "0px",
-              left: "0px",
-              padding: "10px",
-              zIndex: 1000,
-            }}
-          >
+          <div className="rotary">
             <a
               href="https://www.rotary-ribi.org/clubs/homepage.php?ClubID=175"
               target="_blank"
@@ -82,6 +74,11 @@ function App() {
               {introRequired.current ? speakStart() : null}
             </span>
           </button>
+          <div className="credits">
+           <a href="/bird-songs/credits.html" style={{ textDecoration: 'none', color: 'inherit' }}>
+             Credits
+           </a>
+          </div>
         </>
       )}
       {startSpeaking &&
