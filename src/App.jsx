@@ -10,10 +10,8 @@ var introText =
   " If the bird is clicked a second time while playing, it will stop" +
   " the audio and scroll to the next bird.";
 
-
 var birdies = [];
 parseCSV("data.csv", birdies);
-//var bird = [];
 
 function App() {
   
@@ -27,6 +25,7 @@ function App() {
   var songFinishedPlaying = useRef(false); // Flag for automatic song end
   var [triggerRecursion, setTriggerRecursion] = useState(false);
   var bird = useRef(null);
+  var ignoreClick = useRef(false); // used to ignore clicks while speaking bird names
 
   useEffect(() => {
     // check to see if array is empty
@@ -101,7 +100,6 @@ function App() {
                 src={bird.imageSrc}
                 className={`bird react vite ${isSongPlaying ? "playing" : ""}`}
                 alt="audio bird"
-                //onClick={handleBirdClick} // Use this to play/stop sound and potentially advance
                 onClick={playBirdSound}
               />
             ) : null}
@@ -110,42 +108,22 @@ function App() {
     </div>
   );
 
-  const handleBirdClick = () => {
-    birdHasBeenClicked.current = true;
-    bird = birdies[indexRef.current];
-    setCurrentBird(bird);
-    playBirdSound();
-   /* if (isSongPlaying && audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setIsSongPlaying(false);
-      // indexRef.current = (indexRef.current + 1) % birdies.length; // Jump to next bird
-      //indexRef.current = indexRef.current + 1; // Jump to next bird
-      //bird = birdies[indexRef.current];
-      //setCurrentBird(bird);
-      birdHasBeenClicked.current = true;
-    } else if (currentBird) {
-      playBirdSound(currentBird);
-    }*/
-  };
-
   function playBirdSound () {
-    //console.log("birdsound ",currentBird.audioUrl,isSongPlaying);
-    //audioRef.current = new Audio(currentBird.audioUrl);
-    if (isSongPlaying) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    } else {
-    audioRef.current = new Audio(currentBird.audioUrl);
-    songFinishedPlaying.current = false;
-    audioRef.current.play();
-    }
-    setIsSongPlaying(!isSongPlaying);
+    if (ignoreClick.current) return; // ignore the click
+
+      if (isSongPlaying) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      } else {
+        audioRef.current = new Audio(currentBird.audioUrl);
+        songFinishedPlaying.current = false;
+        audioRef.current.play();
+      }
+      setIsSongPlaying(!isSongPlaying);
     
     audioRef.current.onended = () => {
       setIsSongPlaying(false);
       songFinishedPlaying.current = true;
-      //indexRef.current = indexRef.current + 1;
       birdHasBeenClicked.current = !birdHasBeenClicked.current;
       setTimeout(speakNext, 100); 
     };
@@ -157,52 +135,41 @@ function App() {
   }; // end of playBirdSound
 
   function handleDivClick () {
-    // Prevent the automatic scrolling from continuing if a bird is clicked
-    // for manual interaction
+    if (ignoreClick.current) return; // ignore the click
     birdHasBeenClicked.current = !birdHasBeenClicked.current;
     setTriggerRecursion(!triggerRecursion);
-    //console.log("handlediv ",currentBird.audioUrl,isSongPlaying);
   };
 
   function speakNext() {
+    if (ignoreClick.current) return; // ignore the click
     if (indexRef.current >= birdies.length && !birdHasBeenClicked.current) {
       setCurrentBird(null);
       setStartSpeaking(false);
       introRequired.current = false;
       introText = null;
+      setTriggerRecursion(!triggerRecursion);
       return; // stop when all birds are spoken
     }
 
-    // if (birdHasBeenClicked.current && !isSongPlaying && !songFinishedPlaying.current) {
-
     if (birdHasBeenClicked.current) {
-      return; // Wait for manual interaction
+      return; 
     }
 
-    if (birdHasBeenClicked.current && songFinishedPlaying.current) {
-      birdHasBeenClicked.current = false; // Reset flag after song finishes
-      indexRef.current++;
-      //console.log("speaknext",indexRef.current);
-      songFinishedPlaying.current = false;
-      setTimeout(speakNext, 100); // Small delay to allow state update
-      return;
-    }
-
-    // if (indexRef.current < birdies.length) {
+    if (indexRef.current < birdies.length) {
       bird = birdies[indexRef.current];
-      setCurrentBird(bird);
-      const speech = new SpeechSynthesisUtterance(bird.preview);
+    }
+    setCurrentBird(bird);
+    const speech = new SpeechSynthesisUtterance(bird.preview);
+    ignoreClick.current = true; // ignore clicks while speaking
+    window.speechSynthesis.speak(speech);
 
       speech.onend = () => {
-        //console.log("onend ",indexRef.current);
+        ignoreClick.current = false; // process clicks again
         setTimeout(() => {
           speakNext();
         }, 2500);
         indexRef.current++; // move to next bird
       };
-
-      window.speechSynthesis.speak(speech);
-    // }
 
   } // end of speaknext
 
