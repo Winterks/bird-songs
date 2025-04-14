@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-// import PropTypes from "prop-types";
 import "./App.css";
 import parseCSV from "./components/birds/parseCSV";
 import rotaryLogo from "./assets/my-rotary-logo.png";
@@ -161,10 +160,10 @@ function App() {
     window.speechSynthesis.speak(speech);
 
       speech.onend = () => {
-        ignoreClick.current = false; // process clicks again
+        setTimeout(() => {ignoreClick.current = false;}, 200);
         setTimeout(() => {
           speakNext();
-        }, 2500);
+        }, 2000);
         indexRef.current++; // move to next bird
       };
 
