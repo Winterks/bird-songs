@@ -28,11 +28,12 @@ function App() {
   var isListening = useRef(false); // Flag to track listening state
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 
-  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+  /*if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     console.log("Speech recognition available");
-  };
+  };*/
   var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList;
   const recognition = new SpeechRecognition();
+  // grammars not supported on IOS - nothing gets displayed
   /*const grammar = '#JSGF V1.0; grammar commands; public <command> = start | next | select | play ;';
   const speechRecognitionList = new SpeechGrammarList();
   speechRecognitionList.addFromString(grammar, 1);
@@ -40,7 +41,7 @@ function App() {
   recognition.lang = 'en-GB'; // Set the language
   recognition.continuous = true; // keep listening
   recognition.interimResults = false; // Only final results wanted
-  console.log("recognition set up")
+  
   recognition.onstart = function() {
       isListening.current = true;
       //console.log('Speech recognition started. Listening:', isListening);
@@ -91,7 +92,7 @@ function App() {
     if (!birdies.length) {
       return;
     }
-    console.log("useEffect")
+    
     if (startSpeaking) speakNext();
   }, [startSpeaking, triggerRecursion]);
 
@@ -212,7 +213,6 @@ function App() {
   };
 
   function speakNext() {
-    console.log("speaknext")
     if (ignoreClick.current) return; // ignore the click
     if (indexRef.current >= birdies.length && !birdHasBeenClicked.current) {
       setCurrentBird(null);
@@ -258,7 +258,7 @@ function App() {
     intro.onend = () => {
       //console.log("intro finished");
     };
-    console.log("speakstart message", isListening.current);
+    // console.log("speakstart message", isListening.current);
 
     window.speechSynthesis.speak(intro);
 
