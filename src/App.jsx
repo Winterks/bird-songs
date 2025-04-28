@@ -33,10 +33,10 @@ function App() {
   };
   var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList;
   const recognition = new SpeechRecognition();
-  const grammar = '#JSGF V1.0; grammar commands; public <command> = start | next | select | play ;';
+  /*const grammar = '#JSGF V1.0; grammar commands; public <command> = start | next | select | play ;';
   const speechRecognitionList = new SpeechGrammarList();
   speechRecognitionList.addFromString(grammar, 1);
-  recognition.grammars = speechRecognitionList;
+  recognition.grammars = speechRecognitionList;*/
   recognition.lang = 'en-GB'; // Set the language
   recognition.continuous = true; // keep listening
   recognition.interimResults = false; // Only final results wanted
