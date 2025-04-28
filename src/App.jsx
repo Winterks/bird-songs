@@ -25,8 +25,13 @@ function App() {
   var [triggerRecursion, setTriggerRecursion] = useState(false);
   var bird = useRef(null);
   var ignoreClick = useRef(false); // used to ignore clicks while speaking bird names
-  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-  var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList
+  var isListening = useRef(false); // Flag to track listening state
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
+  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    console.log("Speech recognition available");
+  };
+  var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList;
   const recognition = new SpeechRecognition();
   const grammar = '#JSGF V1.0; grammar commands; public <command> = start | next | select | play ;';
   const speechRecognitionList = new SpeechGrammarList();
@@ -34,9 +39,7 @@ function App() {
   recognition.grammars = speechRecognitionList;
   recognition.lang = 'en-GB'; // Set the language
   recognition.continuous = true; // keep listening
-  recognition.interimResults = false; // Only final results
-  var isListening = useRef(false); // Flag to track listening state
-
+  recognition.interimResults = false; // Only final results wanted
   recognition.onstart = function() {
       isListening.current = true;
       //console.log('Speech recognition started. Listening:', isListening);
@@ -79,7 +82,7 @@ function App() {
         console.log(`Sorry, don't understand`);
     }
    // recognition.stop();
-};
+}; // end of onresult
 
 
   useEffect(() => {
@@ -252,7 +255,7 @@ function App() {
     intro.onend = () => {
       //console.log("intro finished");
     };
-    //console.log("speakstart message", isListening.current);
+    console.log("speakstart message", isListening.current);
 
     window.speechSynthesis.speak(intro);
 
