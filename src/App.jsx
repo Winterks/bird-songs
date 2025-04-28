@@ -40,6 +40,7 @@ function App() {
   recognition.lang = 'en-GB'; // Set the language
   recognition.continuous = true; // keep listening
   recognition.interimResults = false; // Only final results wanted
+  console.log("recognition set up")
   recognition.onstart = function() {
       isListening.current = true;
       //console.log('Speech recognition started. Listening:', isListening);
@@ -90,6 +91,7 @@ function App() {
     if (!birdies.length) {
       return;
     }
+    console.log("useEffect")
     if (startSpeaking) speakNext();
   }, [startSpeaking, triggerRecursion]);
 
@@ -210,6 +212,7 @@ function App() {
   };
 
   function speakNext() {
+    console.log("speaknext")
     if (ignoreClick.current) return; // ignore the click
     if (indexRef.current >= birdies.length && !birdHasBeenClicked.current) {
       setCurrentBird(null);
