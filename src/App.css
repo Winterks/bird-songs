@@ -69,7 +69,7 @@ img.bird {
 .credits {
   margin-top: 20px; /* Add some spacing above the credits */
   text-align: center; /* Center the text */
-  font-size: 0.8em; /* Make the text a bit smaller */
+  font-size: 1.5em; /* Make the text a bit bigger */
   color: #777; /* A lighter color */
   position: fixed;
   bottom: 10px;
@@ -78,5 +78,21 @@ img.bird {
 }
 
 .credits a:hover {
+  color: #333; /* Darker color on hover */
+}
+
+.help {
+  margin-top: 20px; /* Add some spacing above help */
+  text-align: center; /* Center the text */
+  font-size: 1.5em; /* Make the text a bit bigger */
+  color: orange; /* A lighter color */
+  position: fixed;
+  bottom: 10px;
+  left: 1;
+  z-index: 100; 
+}
+
+.help:hover {
+  cursor: pointer;
   color: #333; /* Darker color on hover */
 }

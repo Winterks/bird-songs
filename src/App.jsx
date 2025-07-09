@@ -5,6 +5,11 @@ import parseCSV from "./components/birds/parseCSV";
 import rotaryLogo from "./assets/my-rotary-logo.png";
 
 var introText =
+"Click Help, if more information is required, " +
+"otherwise ";
+var startText = 
+"Click to Start";
+var helpText =
   "The application will scroll through images of each bird in turn." +
   " Click on the bird you want to hear and its song will be played." +
   " If the bird is clicked a second time while playing, it will stop" +
@@ -56,11 +61,16 @@ function App() {
 
   recognition.onresult = function(event) {
     const last = event.results.length - 1;
-    const command = event.results[last][0].transcript.toLowerCase().trim();
+    let command = event.results[last][0].transcript.toLowerCase().trim();
     //console.log('Recognized command:', command, command.length);
+    if (command.lastIndexOf("select") >= 0) {command = "select";}
+    if (command.lastIndexOf("play") >= 0) {command = "play";}
+    if (command.lastIndexOf("next") >= 0) {command = "next";}
+    if (command.lastIndexOf("start") >= 0) {command = "start";}
+    if (command.lastIndexOf("help") >= 0) {command = "help";}
     switch (command) {
       case "play": // image on screen waiting to play
-      //console.log("play  ",isSongPlaying);
+      console.log("play  ",isSongPlaying);
       if (!isSongPlaying) {  
         document.getElementById("play").click();
        }       
@@ -72,16 +82,21 @@ function App() {
          }       
         break;
       case "next": // image on screen and playing, stop playing and move to next bird
-        //console.log("next  ", songFinishedPlaying);
-       if (!songFinishedPlaying.current) {  // make sure song is playing
+       /*console.log("next  ", songFinishedPlaying.current, isSongPlaying);
+       if (songFinishedPlaying.current || isSongPlaying) {  // make sure song is playing*/
         document.getElementById("play").click();
-       }        
+      // }        
         break;
       case "start": // start screen displayed waiting for click
         document.getElementById("start").click();
         break;
+      case "help": // start screen displayed waiting for click
+       //if (!startSpeaking.current) { // make sure we are on the start screen & haven't started scrolling
+        document.getElementById("help").click(); 
+       //}
+        break;  
       default:
-        console.log(`Sorry, don't understand`);
+        console.log(`Sorry, don't understand - `,command);
     }
    // recognition.stop();
 }; // end of onresult
@@ -117,34 +132,36 @@ function App() {
             className="start-button"
             id="start"
             onClick={() => {
-              if(!isListening.current){
+              if (!isListening.current) {
                 recognition.start(); // start listening
                 //console.log("speakstart switch on");
               };
-              if (introRequired.current) {
-                speakStart();
-                introRequired.current = false;
-              } else {
-                // Cancel the intro if its playing
-                window.speechSynthesis.cancel();
-                setStartSpeaking(!startSpeaking);
-                indexRef.current = 0; // reset the index
-                //recognition.stop(); // stop listening
-              }
+              // Cancel the intro if its playing
+              window.speechSynthesis.cancel();
+              setStartSpeaking(!startSpeaking);
+              indexRef.current = 0; // reset the index
+              //recognition.stop(); // stop listening
             }}
           >
             <span>
               British bird songs
               <br />
               {introText}
-              <br /> Click to start
+              <br />
+              {startText}
               {introRequired.current ? speakStart() : null}
             </span>
           </button>
           <div className="credits">
-           <a href="/bird-songs/credits.html" style={{ textDecoration: 'none', color: 'inherit' }}>
+           <a href="/bird-songs/credits.html" style={{ textDecoration: 'none', color: "orange" }}>
              Credits
            </a>
+          </div>
+          <div className="help" 
+            id="help"
+            onClick={help}
+            >
+               Help
           </div>
         </>
       )}
@@ -174,6 +191,15 @@ function App() {
     </div>
   );
 
+  function help () {
+    const helpIntro = new SpeechSynthesisUtterance(helpText);   
+    
+    document.getElementById('start').innerHTML = helpText;
+    window.speechSynthesis.speak(helpIntro);
+    setTriggerRecursion(!triggerRecursion);
+
+  } // end help
+
   function playBirdSound () {
     if (ignoreClick.current) return; // ignore the click
     if(!isListening.current){
@@ -181,16 +207,18 @@ function App() {
       //console.log("playbirdsound switch on");
     };    
 
-      if (isSongPlaying) {
+      if (isSongPlaying) { // stop it
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-      } else {
+        setIsSongPlaying(false);
+      } else { // start playing
         audioRef.current = new Audio(currentBird.audioUrl);
         songFinishedPlaying.current = false;
+        setIsSongPlaying(true);
+        recognition.stop(); // stop listening
         audioRef.current.play();
       }
-      recognition.stop(); // stop listening
-      setIsSongPlaying(!isSongPlaying);
+      
       //console.log("playbirdsound switch off");
     
     audioRef.current.onended = () => {
@@ -228,17 +256,22 @@ function App() {
       return; 
     }
 
+    ignoreClick.current = true; // ignore clicks while speaking
+    recognition.stop(); // stop listening while speaking otherwise command is corrupted
+
     if (indexRef.current < birdies.length) {
       bird = birdies[indexRef.current];
     }
     setCurrentBird(bird);
     const speech = new SpeechSynthesisUtterance(bird.preview);
-    ignoreClick.current = true; // ignore clicks while speaking
 
     window.speechSynthesis.speak(speech);
 
       speech.onend = () => {
-        setTimeout(() => {ignoreClick.current = false;}, 200);
+        setTimeout(() => {
+          ignoreClick.current = false;
+          // if(!isListening.current){recognition.start();} // start listening
+        }, 200);
         setTimeout(() => {
           speakNext();
         }, 2000);
@@ -254,13 +287,17 @@ function App() {
 
   function speakStart() {
     const intro = new SpeechSynthesisUtterance(introText);    
-
-    intro.onend = () => {
-      //console.log("intro finished");
+    const startIntro = new SpeechSynthesisUtterance(startText);   
+   
+    startIntro.onend = () => {
+      introText = null;
+      recognition.start(); // start listening
     };
-    // console.log("speakstart message", isListening.current);
+    // console.log("speakstart message", introRequired.current);
 
+    introRequired.current = false;
     window.speechSynthesis.speak(intro);
+    window.speechSynthesis.speak(startIntro);
 
   } // end of speakStart
 
@@ -269,4 +306,4 @@ function App() {
 
 export default App;
 
-// Removed GenericPlayer component and integrated audio logic into App
+// Removed GenericPlayer component and integrated audio logic into Ap
