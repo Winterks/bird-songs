@@ -70,7 +70,7 @@ function App() {
     if (command.lastIndexOf("help") >= 0) {command = "help";}
     switch (command) {
       case "play": // image on screen waiting to play
-      console.log("play  ",isSongPlaying);
+      // console.log("play  ",isSongPlaying);
       if (!isSongPlaying) {  
         document.getElementById("play").click();
        }       
@@ -192,11 +192,18 @@ function App() {
   );
 
   function help () {
-    const helpIntro = new SpeechSynthesisUtterance(helpText);   
-    
-    document.getElementById('start').innerHTML = helpText;
+    const helpIntro = new SpeechSynthesisUtterance(helpText); 
+    var startIntro = new SpeechSynthesisUtterance(startText);   
+
+    recognition.stop(); // stop listening while speaking help info
+    document.getElementById('start').innerHTML = helpText+" "+startText;
     window.speechSynthesis.speak(helpIntro);
+    window.speechSynthesis.speak(startIntro);
     setTriggerRecursion(!triggerRecursion);
+    if(!isListening.current){
+      recognition.start(); // start listening
+    };
+
 
   } // end help
 
@@ -295,6 +302,7 @@ function App() {
     };
     // console.log("speakstart message", introRequired.current);
 
+    window.speechSynthesis.cancel();
     introRequired.current = false;
     window.speechSynthesis.speak(intro);
     window.speechSynthesis.speak(startIntro);
