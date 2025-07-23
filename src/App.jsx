@@ -215,7 +215,7 @@ function App() {
         audioRef.current = new Audio(currentBird.audioUrl);
         songFinishedPlaying.current = false;
         setIsSongPlaying(true);
-        recognition.stop(); // stop listening
+       // recognition.stop(); // stop listening
         audioRef.current.play();
       }
       
