@@ -193,10 +193,10 @@ function App() {
 
   function help () {
     const helpIntro = new SpeechSynthesisUtterance(helpText); 
-    var startIntro = new SpeechSynthesisUtterance(startText);   
+    var startIntro = new SpeechSynthesisUtterance("click or say Start to continue");   
 
     recognition.stop(); // stop listening while speaking help info
-    document.getElementById('start').innerHTML = helpText+" "+startText;
+    document.getElementById('start').innerHTML = helpText+"  "+startText;
     window.speechSynthesis.speak(helpIntro);
     window.speechSynthesis.speak(startIntro);
     setTriggerRecursion(!triggerRecursion);
@@ -281,7 +281,7 @@ function App() {
         }, 200);
         setTimeout(() => {
           speakNext();
-        }, 2000);
+        }, 3000);
         indexRef.current++; // move to next bird
         if(!isListening.current){
           recognition.start(); // start listening
